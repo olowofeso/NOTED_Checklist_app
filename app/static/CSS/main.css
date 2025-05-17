@@ -174,7 +174,7 @@ body {
     letter-spacing: 0.20rem;
     margin-top: 50px;
     margin-bottom: 20px;
-    max-width: 6ch;
+    max-width: 6.9ch;
   }
   
   /* Animation */
@@ -191,7 +191,7 @@ body {
   
   @keyframes animated-text{
     from{width: 0%;}
-    to{width: 6ch;}
+    to{width: 6.9ch;}
   }
   
   /* cursor animations */
