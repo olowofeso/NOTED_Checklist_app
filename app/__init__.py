@@ -18,19 +18,24 @@ def create_app():
     
     db.init_app(app)
     
+    # Add delay before first connection attempt
+    time.sleep(5)
+    
     with app.app_context():
         from . import routes
         routes.init_routes(app)
         
-        # Retry logic for database connection
-        max_retries = 5
-        retry_delay = 2
+        # More robust connection handling
+        max_retries = 10
+        retry_delay = 5
         for attempt in range(max_retries):
             try:
                 db.create_all()
+                print("Database connection successful!")
                 break
             except OperationalError as e:
                 if attempt == max_retries - 1:
+                    print(f"Failed to connect to database after {max_retries} attempts")
                     raise e
                 print(f"Database connection failed (attempt {attempt + 1}), retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
