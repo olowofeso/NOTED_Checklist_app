@@ -1,23 +1,19 @@
 FROM python:3.11-slim
 
 WORKDIR /app
-COPY . .
 
-# Install dependencies
+# 1) Add CA certs so SSL handshakes succeed
 RUN apt-get update \
-    && apt-get install -y ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+ && apt-get install -y --no-install-recommends ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
-# Set Python path
-ENV PYTHONPATH=/app
-
-# Install Python packages
+# 2) Copy & install Python deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app code
-COPY app ./app 
+# 3) Copy your code
+COPY . .
 
-EXPOSE 5000
-
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:10000"]
+# 4) Expose port and start Gunicorn against your real `app` object
+EXPOSE 10000
+ENTRYPOINT ["gunicorn", "app:app", "--bind", "0.0.0.0:10000"]
