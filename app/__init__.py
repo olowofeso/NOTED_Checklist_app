@@ -74,3 +74,5 @@ def create_app():
                     time.sleep(5)
     
     return app
+
+app = create_app()
