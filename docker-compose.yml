@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app:create_app
+    volumes:
+      - ./app/templates:/app/app/templates
+      - ./app/static:/app/app/static
+      - ./app/instance:/app/app/instance
+    user: "1000:1000"  

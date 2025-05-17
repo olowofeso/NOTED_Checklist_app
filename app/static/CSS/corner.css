@@ -1,0 +1,77 @@
+.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+}
+
+@keyframes octocat-wave {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    20% {
+        transform: rotate(-25deg);
+    }
+
+    40% {
+        transform: rotate(10deg);
+    }
+
+    60% {
+        transform: rotate(-25deg);
+    }
+
+    80% {
+        transform: rotate(10deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none;
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out;
+    }
+}
+
+/* container for the circle */
+.linkedin-corner {
+    position: absolute;
+    top: 0;
+    left: 0;               /* sits in top‑left */
+    width: 80px;           /* same footprint as GitHub corner svg */
+    height: 80px;
+    pointer-events: none;  /* pass clicks through except the <a> */
+    z-index: 100;  
+  }
+  
+  /* the actual button */
+  .linkedin-btn {
+    pointer-events: auto;       /* so you can click it */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;                /* adjust size as you like */
+    height: 48px;
+    background: #0077B5;        /* LinkedIn blue */
+    color: white;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.2rem;
+    position: absolute;         /* center it inside the 80×80 container */
+    top: 16px;
+    left: 16px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    animation: bounce 2.5s ease-in-out infinite;
+  }
+  
+  /* simple up‑and‑down bounce */
+  @keyframes bounce {
+    0%, 100%   { transform: translateY(0); }
+    50%        { transform: translateY(-8px); }
+  }
+  
