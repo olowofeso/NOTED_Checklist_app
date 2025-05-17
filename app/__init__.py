@@ -1,5 +1,4 @@
 import os
-import time
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -10,15 +9,16 @@ def create_app():
                 template_folder='templates',
                 static_folder='static')
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    # Configure database URI - use Render's environment variable
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    if not app.config['SQLALCHEMY_DATABASE_URI']:
+        raise ValueError("No DATABASE_URL environment variable set")
+    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
-
+    
     with app.app_context():
-        # Delay to ensure db is ready
-        time.sleep(5)
-        
         from . import routes
         routes.init_routes(app)
         
@@ -26,7 +26,6 @@ def create_app():
             db.create_all()
             print("Database tables created successfully")
         except Exception as e:
-            print(f"Database initialization failed: {str(e)}")
-            # Don't raise here - let the app start without tables
+            print(f"Database initialization warning: {str(e)}")
     
     return app
