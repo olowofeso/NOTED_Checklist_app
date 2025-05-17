@@ -21,5 +21,4 @@ COPY app ./app
 EXPOSE 5000
 
 # Using production server
-RUN pip install gunicorn==21.2.0
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:create_app()"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:create_app"]
