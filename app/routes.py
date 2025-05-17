@@ -18,7 +18,7 @@ def init_routes(app):
         
         todos = Todo.query.all()
         return jsonify([todo.to_dict() for todo in todos])
-
+    
     @app.route('/api/todos/<int:id>', methods=['DELETE', 'PATCH'])
     def todo_actions(id):
         todo = Todo.query.get_or_404(id)
