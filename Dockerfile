@@ -6,11 +6,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
+    libpq-dev \  
     && rm -rf /var/lib/apt/lists/*
-
-# Create instance directory explicitly
-RUN mkdir -p /app/instance && \
-    chmod -R 777 /app/instance
 
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
