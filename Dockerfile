@@ -4,9 +4,9 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc python3-dev libpq-dev && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get install -y ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set Python path
 ENV PYTHONPATH=/app
@@ -20,4 +20,4 @@ COPY app ./app
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0:5000", "app:create_app"]
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:10000"]
