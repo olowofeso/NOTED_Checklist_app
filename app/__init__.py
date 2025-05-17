@@ -3,6 +3,8 @@ import time
 import urllib.parse
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text 
+
 
 db = SQLAlchemy()
 
@@ -24,7 +26,8 @@ def create_app():
     parsed = urllib.parse.urlparse(db_url)
     query_params = urllib.parse.parse_qs(parsed.query)
     query_params['sslmode'] = ['require']
-    query_params['sslrootcert'] = ['/etc/ssl/certs/ca-certificates.crt']
+    if 'render.com' in db_url.lower():
+        query_params['sslrootcert'] = ['/etc/ssl/certs/ca-certificates.crt']
     
     secure_url = urllib.parse.urlunparse(
         parsed._replace(query=urllib.parse.urlencode(query_params, doseq=True)))
@@ -46,7 +49,7 @@ def create_app():
     @app.route('/healthz')
     def health_check():
         try:
-            db.session.execute('SELECT 1')
+            db.session.execute(text('SELECT 1'))
             return 'OK', 200
         except Exception as e:
             app.logger.error(f"Health check failed: {str(e)}")

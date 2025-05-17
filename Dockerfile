@@ -2,19 +2,24 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
-    libpq-dev \  
+    libpq-dev \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
+# Install requirements first to leverage Docker cache
 COPY requirements.txt .
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy application code
 COPY app ./app
 
 EXPOSE 5000
-CMD ["flask", "run", "--host=0.0.0.0"]
+
+# Using production server
+RUN pip install gunicorn==21.2.0
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:create_app()"]
